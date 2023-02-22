@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="assets/style.css" />
+    <title>TechQuiz</title>
+  </head>
+  <body>
+    <header class="top">
+      <h1>TechQuiz</h1>
+    </header>
+    <main>
+      <!-- //container for the questins, answers, timer and highscore -->
+      <div class="container" id="container">
+        <div class="bar">
+          <!-- //Link to highscore -->
+          <a class="highscores" href="./assets/high-score.html">Highscores</a>
+          <!-- //container for the timer -->
+          <div class="timer" id="timer">Time:100</div>
+        </div>
+        <div class="questions" id="questions">
+          <h2>TechQuiz Challenge</h2>
+          <p>
+            You will be pressented with 5 tech-related questions that you will
+            need to answer within the 100 seconds time limit. Keep in mind that incorrect
+            answers will penalize your score/time by 15 seconds!
+          </p>
+          <button class="start-button" id="start-button">Test</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <h5>Created By Kris</h5>
+    </footer>
+    <script src="assets/script.js"></script>
+  </body>
+</html>

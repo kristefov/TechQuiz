@@ -1,0 +1,149 @@
+* {
+  background-color: rgb(52, 61, 70);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: aliceblue;
+  box-sizing: border-box;
+  text-align: center;
+}
+/* navbar style */
+.top {
+  background-color: rgb(42, 63, 108);
+  justify-content: flex-start;
+  border: solid rgb(35, 53, 93);
+  margin: 40px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 20px black;
+  height: 15vh;
+}
+/* question qontainer styling */
+.container {
+  background-color: rgb(60, 89, 151);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  border: solid rgb(37, 55, 94) 10px;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: 3px 3px 120px black;
+  height: 60vh;
+  width: 60vw;
+}
+.highscores {
+  background-color: rgb(60, 89, 151);
+  text-decoration: none;
+  border-radius: 5px;
+}
+.timer {
+  background-color: rgb(60, 89, 151);
+}
+.bar {
+  background-color: rgb(60, 89, 151);
+  border: solid rgb(60, 89, 151) 2px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 5px;
+}
+/* styling for the start button */
+.start-button {
+  border: solid rgb(35, 53, 93);
+  width: 10vh;
+  height: 10vh;
+  background-color: rgb(42, 63, 108);
+  box-shadow: 3px 3px 30px black;
+}
+/* Styling for all other buttons and inputs */
+button,
+input,
+label {
+  border: solid rgb(35, 53, 93);
+  background-color: rgb(42, 63, 108);
+  box-shadow: 3px 3px 30px black;
+  margin: 5px;
+}
+
+#createDiv {
+  background-color: rgb(42, 63, 108);
+  box-shadow: 3px 3px 30px black;
+}
+
+li {
+  display: flex;
+  border: solid rgb(35, 53, 93);
+  width: 50%;
+  background-color: rgb(42, 63, 108);
+  padding: 3px;
+  margin: 10px;
+  box-shadow: 3px 3px 30px black;
+}
+ul {
+  background-color: rgb(60, 89, 151);
+}
+.questions {
+  background-color: rgb(60, 89, 151);
+  margin: 1%;
+}
+
+p {
+  margin: 5%;
+  background-color: rgb(60, 89, 151);
+  text-shadow: 6px 6px 20px black;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  margin: 4%;
+  background-color: rgb(42, 63, 108);
+  box-shadow: 3px 3px 20px black;
+  padding: 10px;
+  border-radius: 10px;
+  text-shadow: 3px 3px 30px black;
+}
+h2 {
+  background-color: rgb(47, 71, 121);
+  box-shadow: 3px 3px 10px black;
+  border-radius: 30px;
+  text-shadow: 3px 3px 30px black;
+  padding: 10px;
+  border: solid rgb(36, 54, 92) 10px;
+}
+/* media query to fit for smaller devices*/
+@media screen and (max-width: 556px) {
+  h1 {
+    font-size: 80%;
+    margin-top: 50px;
+  }
+  h2 {
+    font-size: 80%;
+  }
+  p {
+    font-size: 80%;
+  }
+  a {
+    font-size: 80%;
+  }
+  #timer {
+    font-size: 80%;
+  }
+} 
+
+/* media query to fit for smaller devices*/
+@media screen and (max-width: 356px) {
+    h1 {
+      font-size: 70%;
+    }
+    h2 {
+      font-size: 70%;
+    }
+    p {
+      font-size: 60%;
+    }
+    a {
+      font-size: 60%;
+    }
+    #timer {
+      font-size: 60%;
+    }
+  }
