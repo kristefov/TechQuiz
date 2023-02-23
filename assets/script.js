@@ -106,8 +106,9 @@ function compareAnswer(event) {
   questionIndex++;
   if (questionIndex >= allQuestions.length) {
     finish();
-
-    createDiv.textContent =
+    var endDiv = document.createElement('div');
+    endDiv.setAttribute("id", "endDiv");
+		endDiv.textContent =
       "End of the TechQuiz" +
       " " +
       "You have achived a score of " +
@@ -115,11 +116,11 @@ function compareAnswer(event) {
       "/" +
       allQuestions.length +
       " Correct!";
+      questions.append(endDiv);
   } else {
     render(questionIndex);
   }
   questions.append(createDiv);
-  questions.append(createDiv1);
 }
 //This will append the final page to enter initials and to submit your score
 function finish() {
@@ -170,6 +171,7 @@ function finish() {
   // Event listener to capture initials and local storage for initials and score
   createSubmit.addEventListener("click", function () {
     var typedInitials = createInput.value;
+    var correctQuestions = (score + "/" + allQuestions.length);
 
     if (typedInitials === "") {
       alert("Enter Initials");
@@ -177,6 +179,8 @@ function finish() {
       var scores = {
         initials: typedInitials,
         score: timeRemaining,
+        final: correctQuestions,
+
       };
       var finalScores = localStorage.getItem("allScores");
       if (finalScores === null) {
@@ -188,7 +192,7 @@ function finish() {
       var newScore = JSON.stringify(finalScores);
       localStorage.setItem("finalScores", newScore);
       // This will take you to the high-score.html
-      window.location.replace("/assets/high-score.html");
+      window.location.replace("https://kristiyantefov.github.io/TechQuiz/assets/high-score.html");
     }
   });
 }
