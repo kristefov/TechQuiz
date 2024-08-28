@@ -24,5 +24,5 @@ if (finalScores !== null) {
 
 // Event listener to take you to the index page
 goBack.addEventListener("click", function () {
-    window.location.replace("https://kristiyantefov.github.io/TechQuiz/");
+    window.location.replace("https://kristefov.github.io/TechQuiz/");
 });
