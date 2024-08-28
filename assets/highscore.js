@@ -11,15 +11,19 @@ clear.addEventListener("click", function () {
 
 // Retrieves local storage
 var finalScores = localStorage.getItem("finalScores");
+console.log("Retrieved finalScores from localStorage:", finalScores); // Debugging statement
 finalScores = JSON.parse(finalScores);
+console.log("Parsed finalScores:", finalScores); // Debugging statement
 
-if (finalScores !== null) {
+if (finalScores !== null && Array.isArray(finalScores)) {
     for (var i = 0; i < finalScores.length; i++) {
         var createList = document.createElement("li");
         createList.textContent = finalScores[i].initials + " " + finalScores[i].final + " " + finalScores[i].score;
         createList.classList.add("bg-gray-800", "text-white", "p-2", "rounded", "mb-2");
         highScore.appendChild(createList);
     }
+} else {
+    highScore.textContent = "No high scores available.";
 }
 
 // Event listener to take you to the index page
