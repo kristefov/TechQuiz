@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="assets/style.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>TechQuiz</title>
-  </head>
-  <body>
-    <header class="top">
-      <h1>TechQuiz</h1>
+</head>
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+    <header class="bg-gray-800 p-4 text-center">
+        <h1 class="text-4xl font-bold">TechQuiz</h1>
     </header>
-    <main>
-      <!-- //container for the questins, answers, timer and highscore -->
-      <div class="container" id="container">
-        <div class="bar">
-          <!-- //Link to highscore -->
-          <a class="highscores" href="./assets/high-score.html">Highscores</a>
-          <!-- //container for the timer -->
-          <div class="timer" id="timer">Time:100</div>
+    <main class="container mx-auto p-4 mt-10 flex-grow">
+        <div class="flex justify-between items-center mb-4">
+            <a class="text-gray-400 hover:underline" href="./assets/high-score.html">Highscores</a>
+            <div id="timer" class="text-xl">Time: 100</div>
         </div>
-        <div class="questions" id="questions">
-          <h2>TechQuiz Challenge</h2>
-          <p>
-            You will be pressented with 5 tech-related questions that you will
-            need to answer within the 100 seconds time limit. Keep in mind that incorrect
-            answers will penalize your score/time by 15 seconds!
-          </p>
-          <button class="start-button" id="start-button">Test</button>
+        <div id="questions" class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">TechQuiz Challenge</h2>
+            <p class="mb-4">
+                You will be presented with 5 tech-related questions that you will need to answer within the 100 seconds time limit. Keep in mind that incorrect answers will penalize your score/time by 15 seconds!
+            </p>
+            <button id="start-button" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded shadow-lg">Start</button>
         </div>
-      </div>
     </main>
-    <footer>
-      <h5>Created By Kris</h5>
+    <footer class="bg-gray-800 p-4 text-center mt-10">
+        <h5>Created By Kris</h5>
     </footer>
     <script src="assets/script.js"></script>
-  </body>
+</body>
 </html>
