@@ -18,7 +18,7 @@ console.log("Parsed finalScores:", finalScores); // Debugging statement
 if (finalScores !== null && Array.isArray(finalScores)) {
     for (var i = 0; i < finalScores.length; i++) {
         var createList = document.createElement("li");
-        createList.textContent = finalScores[i].initials + " " + finalScores[i].score;
+        createList.textContent = `${finalScores[i].initials}: ${finalScores[i].score} out of ${finalScores[i].totalQuestions} correct`;
         createList.classList.add("bg-gray-800", "text-white", "p-2", "rounded", "mb-2");
         highScore.appendChild(createList);
     }
