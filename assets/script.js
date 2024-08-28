@@ -135,6 +135,9 @@ quizForm.addEventListener("submit", function (event) {
             feedbackDiv.style.backgroundColor = "red";
         }
 
+        // Highlight the correct answers in green
+        displayCorrectAnswer();
+
         // Show feedback and display the Next button
         nextButton.style.display = "block";
     } else {
@@ -154,6 +157,15 @@ nextButton.addEventListener("click", function (event) {
         endQuiz();
     }
 });
+
+function displayCorrectAnswer() {
+    // Highlight the correct answers in green
+    currentQuestion.options.forEach((option, index) => {
+        if (currentQuestion.answer.includes(option)) {
+            document.querySelector(`#option-${index}`).nextSibling.style.backgroundColor = "green";
+        }
+    });
+}
 
 function endQuiz() {
     clearInterval(holdInterval);
