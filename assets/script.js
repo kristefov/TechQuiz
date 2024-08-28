@@ -25,6 +25,20 @@ var penalty = 15;
 // Global variable for the current question
 var currentQuestion;
 
+// Function to save scores
+function saveScore(initials, score) {
+    let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
+    let totalQuestions = allQuestions.length;
+
+    allScores.push({
+        initials: initials,
+        score: score,
+        totalQuestions: totalQuestions
+    });
+
+    localStorage.setItem("allScores", JSON.stringify(allScores));
+}
+
 // Event listener for the start button to start the quiz and the timer
 startButton.addEventListener("click", function () {
     if (holdInterval === 0) {
@@ -147,19 +161,7 @@ function endQuiz() {
     if (typedInitials === "") {
         alert("Enter Initials");
     } else {
-        var scores = {
-            initials: typedInitials,
-            score: score,
-        };
-        var finalScores = localStorage.getItem("allScores");
-        if (finalScores === null) {
-            finalScores = [];
-        } else {
-            finalScores = JSON.parse(finalScores);
-        }
-        finalScores.push(scores);
-        var newScore = JSON.stringify(finalScores);
-        localStorage.setItem("allScores", newScore);
+        saveScore(typedInitials, score);
         window.location.replace("https://kristefov.github.io/TechQuiz/assets/high-score.html");
     }
 }
