@@ -89,7 +89,7 @@ function displayQuestion() {
     // Generate input elements for each option
     currentQuestion.options.forEach((option, index) => {
         var label = document.createElement("label");
-        label.classList.add("block", "bg-indigo-900", "hover:bg-indigo-700", "p-2", "mb-2", "rounded", "cursor-pointer"); // Add Tailwind CSS classes
+        label.classList.add("block", "bg-gray-700", "hover:bg-gray-600", "p-2", "mb-2", "rounded", "cursor-pointer"); // Add Tailwind CSS classes
         var input = document.createElement("input");
         input.type = inputType;
         input.name = "answer";
@@ -151,7 +151,7 @@ quizForm.addEventListener("submit", function (event) {
         }
     }
 });
-
+// #282667 #3C053F
 function displayCorrectAnswer() {
     // Highlight the correct answers in green
     currentQuestion.options.forEach((option, index) => {
