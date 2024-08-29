@@ -12,10 +12,7 @@ var answersDiv = document.querySelector("#answers");
 var feedbackDiv = document.createElement("div"); // Create a div for feedback
 feedbackDiv.classList.add("mt-4", "p-2", "rounded"); // Add some margin and padding to feedback div
 quizForm.appendChild(feedbackDiv); // Append feedback div to the form
-var nextButton = document.createElement("button"); // Create a Next button
-nextButton.textContent = "Next";
-nextButton.classList.add("bg-indigo-900", "hover:bg-indigo-800", "text-white", "font-bold", "py-2", "px-4", "rounded", "shadow-lg", "mt-4", "ml-auto"); // Add Tailwind CSS classes
-quizForm.appendChild(nextButton); // Append Next button to the form
+var submitButton = document.querySelector("#submit-button"); // Select the Submit button
 
 // Holders for the timer and penalty
 var secondsLeft = 3600; // Timer starts at 1 hour (3600 seconds)
@@ -72,7 +69,7 @@ function displayQuestion() {
     answersDiv.innerHTML = "";
     feedbackDiv.innerHTML = ""; // Clear feedback
     feedbackDiv.style.backgroundColor = ""; // Reset background color
-    nextButton.style.display = "none"; // Hide the Next button
+    submitButton.textContent = "Submit"; // Reset button text to "Submit"
 
     // Display the current question
     currentQuestion = allQuestions[questionIndex];
@@ -112,49 +109,46 @@ function displayQuestion() {
 quizForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    // Get selected answers
-    var selectedAnswers = Array.from(document.querySelectorAll("input[name='answer']:checked")).map(input => input.value);
+    if (submitButton.textContent === "Submit") {
+        // Get selected answers
+        var selectedAnswers = Array.from(document.querySelectorAll("input[name='answer']:checked")).map(input => input.value);
 
-    // Debugging log
-    console.log("Selected answers:", selectedAnswers);
+        // Debugging log
+        console.log("Selected answers:", selectedAnswers);
 
-    if (selectedAnswers.length > 0) {
-        // Check if the selected answers are correct
-        var isCorrect = selectedAnswers.every(answer => currentQuestion.answer.includes(answer)) &&
-                        selectedAnswers.length === currentQuestion.answer.length;
+        if (selectedAnswers.length > 0) {
+            // Check if the selected answers are correct
+            var isCorrect = selectedAnswers.every(answer => currentQuestion.answer.includes(answer)) &&
+                            selectedAnswers.length === currentQuestion.answer.length;
 
-        if (isCorrect) {
-            score++;
-            feedbackDiv.textContent = "Correct!";
-            feedbackDiv.style.color = "white";
-            feedbackDiv.style.backgroundColor = "green";
+            if (isCorrect) {
+                score++;
+                feedbackDiv.textContent = "Correct!";
+                feedbackDiv.style.color = "white";
+                feedbackDiv.style.backgroundColor = "green";
+            } else {
+                secondsLeft -= penalty;
+                feedbackDiv.textContent = "Wrong!";
+                feedbackDiv.style.color = "white";
+                feedbackDiv.style.backgroundColor = "red";
+            }
+
+            // Highlight the correct answers in green
+            displayCorrectAnswer();
+
+            // Show feedback and change the button text to "Next"
+            submitButton.textContent = "Next";
         } else {
-            secondsLeft -= penalty;
-            feedbackDiv.textContent = "Wrong!";
-            feedbackDiv.style.color = "white";
-            feedbackDiv.style.backgroundColor = "red";
+            alert("Please select an answer.");
         }
-
-        // Highlight the correct answers in green
-        displayCorrectAnswer();
-
-        // Show feedback and display the Next button
-        nextButton.style.display = "block";
-    } else {
-        alert("Please select an answer.");
-    }
-});
-
-// Event listener for the Next button
-nextButton.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form submission
-
-    // Move to the next question or end the quiz
-    questionIndex++;
-    if (questionIndex < allQuestions.length) {
-        displayQuestion();
-    } else {
-        endQuiz();
+    } else if (submitButton.textContent === "Next") {
+        // Move to the next question or end the quiz
+        questionIndex++;
+        if (questionIndex < allQuestions.length) {
+            displayQuestion();
+        } else {
+            endQuiz();
+        }
     }
 });
 

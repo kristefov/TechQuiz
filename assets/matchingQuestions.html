@@ -44,26 +44,20 @@
 <body class="p-6">
   <div class="max-w-xl mx-auto bg-gray-800 text-white p-6 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold mb-4">Match the Following Pairs:</h2>
+    <p id="score" class="text-lg font-semibold mb-4"></p>
     <form id="matchingForm" class="space-y-4">
       <!-- Questions will be dynamically injected here by JavaScript -->
     </form>
     <button id="submitBtn" class="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">Submit</button>
+    <button id="nextBtn" class="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 hidden">Next</button>
     <p id="result" class="mt-4 text-lg font-semibold"></p>
-  </div>
-
-  <!-- Modal -->
-  <div id="feedbackModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="bg-gray-800 text-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-      <h3 class="text-lg font-semibold mb-4">Feedback</h3>
-      <div id="feedbackContent" class="space-y-2"></div>
-      <button id="closeModalBtn" class="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Close</button>
-    </div>
   </div>
 
   <script type="module">
     import { matchingQuestions } from './matchingQuestions.js';
 
     let currentQuestionIndex = 0;
+    let score = 0;
 
     // Function to render the current question and options
     function renderCurrentQuestion() {
@@ -113,7 +107,6 @@
     // Function to check the user's answers and show feedback
     function checkUserAnswer() {
       let allCorrect = true;
-      let feedbackContent = '';
 
       const matchingQuestion = matchingQuestions[currentQuestionIndex];
       matchingQuestion.pairs.forEach(pair => {
@@ -122,41 +115,47 @@
 
         if (selectedValue !== pair.correctAnswer) {
           allCorrect = false;
-          feedbackContent += `<p class="bg-red-500 p-2 rounded text-sm">${pair.id}: Incorrect.<br> You selected "${selectedValue}". <br>The correct answer is <br><span class="bg-green-500 p-1 rounded">${pair.correctAnswer}.</span></p>`;
+          // Highlight the selected option in red
+          if (selectedRadio) {
+            selectedRadio.nextElementSibling.style.backgroundColor = '#DC2626'; // Red
+            selectedRadio.nextElementSibling.style.borderRadius = '0.375rem'; // Border radius
+          }
+          // Highlight the correct option in a different green
+          const correctRadio = document.querySelector(`input[name="question${pair.id}"][value="${pair.correctAnswer}"]`);
+          if (correctRadio) {
+            correctRadio.nextElementSibling.style.backgroundColor = '#10B981'; // Different green
+            correctRadio.nextElementSibling.style.borderRadius = '0.375rem'; // Border radius
+          }
         } else {
-          feedbackContent += `<p class="bg-green-500 p-2 rounded text-sm">${pair.id}: Correct. You selected "${selectedValue}".</p>`;
+          // Highlight the correct option in green
+          if (selectedRadio) {
+            selectedRadio.nextElementSibling.style.backgroundColor = '#16A34A'; // Green
+            selectedRadio.nextElementSibling.style.borderRadius = '0.375rem'; // Border radius
+          }
         }
       });
 
       const resultElement = document.getElementById('result');
-      const feedbackModal = document.getElementById('feedbackModal');
-      const feedbackContentElement = document.getElementById('feedbackContent');
-      const closeModalBtn = document.getElementById('closeModalBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitBtn');
 
       if (allCorrect) {
         resultElement.textContent = "All answers are correct! Well done!";
         resultElement.classList.add('text-green-400');
         resultElement.classList.remove('text-red-400');
-        feedbackModal.classList.add('hidden');
-
-        // Move to the next question if available
-        currentQuestionIndex++;
-        if (currentQuestionIndex < matchingQuestions.length) {
-          renderCurrentQuestion();
-        } else {
-          resultElement.textContent = "Congratulations! You have completed all questions.";
-        }
+        score++;
       } else {
         resultElement.textContent = "Some answers were incorrect. Please check the feedback.";
         resultElement.classList.add('text-red-400');
         resultElement.classList.remove('text-green-400');
-        feedbackContentElement.innerHTML = feedbackContent;
-        feedbackModal.classList.remove('hidden');
       }
 
-      closeModalBtn.addEventListener('click', () => {
-        feedbackModal.classList.add('hidden');
-      });
+      // Show the Next button and hide the Submit button
+      nextBtn.classList.remove('hidden');
+      submitBtn.classList.add('hidden');
+
+      // Update the score display
+      document.getElementById('score').textContent = `Score: ${score} / ${matchingQuestions.length}`;
     }
 
     // Initialize the form and add event listener for submission
@@ -164,9 +163,25 @@
       renderCurrentQuestion();
 
       const submitBtn = document.getElementById('submitBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
       submitBtn.addEventListener('click', (e) => {
         e.preventDefault(); // Prevent form submission
         checkUserAnswer();
+      });
+
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent form submission
+        currentQuestionIndex++;
+        if (currentQuestionIndex < matchingQuestions.length) {
+          renderCurrentQuestion();
+          document.getElementById('result').textContent = ''; // Clear the result text
+          nextBtn.classList.add('hidden'); // Hide the Next button
+          submitBtn.classList.remove('hidden'); // Show the Submit button
+        } else {
+          document.getElementById('result').textContent = "Congratulations! You have completed all questions.";
+          nextBtn.classList.add('hidden'); // Hide the Next button
+        }
       });
     });
   </script>
