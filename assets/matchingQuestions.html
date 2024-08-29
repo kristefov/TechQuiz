@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matching Question Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #1F2937;
+      /* Dark background */
+    }
+  </style>
+</head>
+
+<body class="p-6">
+  <div class="max-w-xl mx-auto bg-gray-800 text-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">Match the Following Pairs:</h2>
+    <form id="matchingForm" class="space-y-4">
+      <!-- Questions will be dynamically injected here by JavaScript -->
+    </form>
+    <button id="submitBtn" class="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">Submit</button>
+    <p id="result" class="mt-4 text-lg font-semibold"></p>
+  </div>
+
+  <!-- Modal -->
+  <div id="feedbackModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 text-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+      <h3 class="text-lg font-semibold mb-4">Feedback</h3>
+      <div id="feedbackContent" class="space-y-2"></div>
+      <button id="closeModalBtn" class="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Close</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { matchingQuestions } from './matchingQuestions.js';
+
+    let currentQuestionIndex = 0;
+
+    // Function to render the current question and options
+    function renderCurrentQuestion() {
+      const form = document.getElementById('matchingForm');
+      form.innerHTML = ''; // Clear the form before rendering
+
+      const matchingQuestion = matchingQuestions[currentQuestionIndex];
+      matchingQuestion.pairs.forEach(pair => {
+        const questionLabel = document.createElement('label');
+        questionLabel.setAttribute('for', `question${pair.id}`);
+        questionLabel.className = 'block text-lg font-medium mb-2';
+        questionLabel.textContent = `${pair.id}. ${pair.term}`;
+
+        const select = document.createElement('select');
+        select.id = `question${pair.id}`;
+        select.className = 'mt-1 block w-full rounded-md border-gray-600 bg-gray-900 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.textContent = "Select an option";
+        select.appendChild(defaultOption);
+
+        matchingQuestion.options.forEach(option => {
+          const optionElement = document.createElement('option');
+          optionElement.value = option;
+          optionElement.textContent = option;
+          select.appendChild(optionElement);
+        });
+
+        const questionDiv = document.createElement('div');
+        questionDiv.appendChild(questionLabel);
+        questionDiv.appendChild(select);
+        form.appendChild(questionDiv);
+      });
+    }
+
+    // Function to check the user's answers and show feedback
+    function checkUserAnswer() {
+      let allCorrect = true;
+      let feedbackContent = '';
+
+      const matchingQuestion = matchingQuestions[currentQuestionIndex];
+      matchingQuestion.pairs.forEach(pair => {
+        const selectElement = document.getElementById(`question${pair.id}`);
+        const selectedValue = selectElement.value;
+
+        if (selectedValue !== pair.correctAnswer) {
+          allCorrect = false;
+          selectElement.classList.add('border-red-500');
+          feedbackContent += `<p class="bg-red-500 p-2 rounded text-sm">${pair.id}: Incorrect.<br> You selected "${selectedValue}". <br>The correct answer is <br><span class="bg-green-500 p-1 rounded">${pair.correctAnswer}.</span></p>`;
+        } else {
+          selectElement.classList.remove('border-red-500');
+          selectElement.classList.add('border-green-500');
+          feedbackContent += `<p class="bg-green-500 p-2 rounded text-sm">${pair.id}: Correct. You selected "${selectedValue}".</p>`;
+        }
+      });
+
+      const resultElement = document.getElementById('result');
+      const feedbackModal = document.getElementById('feedbackModal');
+      const feedbackContentElement = document.getElementById('feedbackContent');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+
+      if (allCorrect) {
+        resultElement.textContent = "All answers are correct! Well done!";
+        resultElement.classList.add('text-green-400');
+        resultElement.classList.remove('text-red-400');
+        feedbackModal.classList.add('hidden');
+
+        // Move to the next question if available
+        currentQuestionIndex++;
+        if (currentQuestionIndex < matchingQuestions.length) {
+          renderCurrentQuestion();
+        } else {
+          resultElement.textContent = "Congratulations! You have completed all questions.";
+        }
+      } else {
+        resultElement.textContent = "Some answers were incorrect. Please check the feedback.";
+        resultElement.classList.add('text-red-400');
+        resultElement.classList.remove('text-green-400');
+        feedbackContentElement.innerHTML = feedbackContent;
+        feedbackModal.classList.remove('hidden');
+      }
+
+      closeModalBtn.addEventListener('click', () => {
+        feedbackModal.classList.add('hidden');
+      });
+    }
+
+    // Initialize the form and add event listener for submission
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCurrentQuestion();
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent form submission
+        checkUserAnswer();
+      });
+    });
+  </script>
+</body>
+
+</html>
