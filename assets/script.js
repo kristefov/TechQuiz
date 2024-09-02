@@ -151,7 +151,7 @@ quizForm.addEventListener("submit", function (event) {
         }
     }
 });
-// #282667 #3C053F
+
 function displayCorrectAnswer() {
     // Highlight the correct answers in green
     currentQuestion.options.forEach((option, index) => {
